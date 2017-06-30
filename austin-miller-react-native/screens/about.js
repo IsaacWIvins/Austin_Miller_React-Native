@@ -46,14 +46,12 @@ export default class About extends React.Component {
           style={styles.list}
           sections={aboutSections}
           renderItem={this.renderItems}
-          renderHeaders={this.renderHeaders}
         />
       </ScrollView>
     );
   }
 
   renderItems = ({item}) => {
-    console.log({item})
     return (
       <View
         style={styles.row}
@@ -63,14 +61,6 @@ export default class About extends React.Component {
       </View>
     )
   };
-  //
-  // renderHeaders = ({sections}) => {
-  //   return (
-  //     <View style={styles.headers}>
-  //       <Text style={styles.headerText}>{sections.key}</Text>
-  //     </View>
-  //   )
-  // };
 
 }//ends class extention
 
@@ -83,7 +73,8 @@ const styles = StyleSheet.create({
     width: 300,
     height: 300,
     marginTop: 60,
-    marginRight: 15,
+    borderWidth: 2,
+    borderColor: 'whitesmoke',
   },
   list: {
     flex: 1,
