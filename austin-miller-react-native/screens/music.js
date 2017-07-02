@@ -11,8 +11,9 @@ export default class Music extends React.Component {
   handlePressedItem = (item) => {
     console.log("item =====", item)
   this.setState({
-    selectedDay: item
+    selectedMusic: item
   })
+  console.log("==== state", this.state.selectedMusic);
 };
 
   render() {
