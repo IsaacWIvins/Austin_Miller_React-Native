@@ -9,7 +9,7 @@ export default class ToggleButton extends React.Component {
       <TouchableOpacity
         style={[styles.button,
         {
-          backgroundColor: item === value ? 'purple' : 'rgb(68, 16, 77)'
+          backgroundColor: item === value ? 'black' : 'rgb(84, 81, 84)'
         }]}
         key={item}
         onPress={onPressItem.bind(this, item)}>
@@ -35,13 +35,15 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    backgroundColor: 'purple',
     height: 50,
+    backgroundColor: 'black',
+    borderWidth: 2,
+    borderColor: 'black',
     justifyContent: 'center',
     alignItems: 'center',
   },
   text: {
-    color: 'black',
+    color: '#00d95a',
     fontSize: 24,
     margin: 10,
   }
