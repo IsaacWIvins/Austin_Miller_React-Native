@@ -3,12 +3,11 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { Constants, Audio } from 'expo';
 
 export default class Player extends React.Component {
-  // require('./assets/music/01CurseTheRoad.mp3')
 
   _handlePlaySoundAsync = async () => {
     await Expo.Audio.setIsEnabledAsync(true);
     const sound = new Expo.Audio.Sound();
-    await sound.loadAsync(require('../assets/music/01CurseTheRoad.mp3'));
+    await sound.loadAsync(require('../assets/music/E-01-CurseTheRoad.mp3'));
     await sound.playAsync();
   };
 
