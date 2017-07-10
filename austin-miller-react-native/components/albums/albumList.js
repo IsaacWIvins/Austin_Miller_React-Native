@@ -6,7 +6,6 @@ import { Austin } from "../../assets/austinData/austinData";
 
 export default class AlbumsList extends React.Component {
 
-
   constructor(props){
     super(props);
     let ds = new ListView.DataSource(
@@ -18,12 +17,10 @@ export default class AlbumsList extends React.Component {
   }
 
   _renderNavPage = (item) => {
-    // console.log("item within albumList//////// =====", item)
     this.props.navigation.navigate('AlbumShow', { ...item });
   }
 
   render() {
-    // console.log("this.props on albumList", this.props)
     return (
       <View style={styles.container}>
         <ListView
