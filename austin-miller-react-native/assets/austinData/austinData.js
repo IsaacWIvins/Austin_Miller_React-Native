@@ -1,13 +1,8 @@
 const Austin = [
-  {
-    id: 0,
-    name: "Austin Miller",
-    background: "./images/headshot.jpg",
-    albums: [
       {
         id: 123,
         title: "Engine",
-        albumImage: "./images/engineCover.jpg",
+        albumImage: "/Users/isaacivins/Desktop/React-Native-Projects/Austin_Miller_React-Native/austin-miller-react-native/assets/images/engineCover.jpg",
         description: "Engine was recorded at the woodshop, Medusa Studio, and at home. All songs were written and recorded by Austin Miller, except 'Sittin on Top of the World', written by Doc Watson. Mixing and mastering by Christopher Bell. Special thanks to Mom and Art, Kevin, Laurie, Dave Melosh, Jordan Schneider, Dave Simons, Logan Rooney, Greg Hughes, Craig, Sinclair, and everyone who continually provides support in one way or another.",
         data: [
           {
@@ -190,8 +185,6 @@ const Austin = [
           }
         ]
       }
-    ]
-  }
 ]
 
 module.exports = { Austin: Austin };

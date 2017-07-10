@@ -1,66 +1,46 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image, SectionList } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image } from 'react-native';
 
 const extractKey = ({id}) => id;
 
-
 export default class AlbumListItem extends React.Component {
 
-  _renderSectionHeader = ({ section }) => {
-    console.log("section", section)
-    return (
-      <View style={styles.dataSection}>
-        <Text>
-          {section.title}
-        </Text>
-      </View>
-    )
-  }
-
-  _renderItems = ({ item }) => {
-    console.log("item", item)
-    return (
-      <View style={styles.dataItem}>
-        <Text>
-          {item.title}
-        </Text>
-      </View>
-    )
+  _onPress = () => {
+    console.log("pressed this.props.album.title", this.props.album.title);
+    console.log("this.props.album.data.length", this.props.album.data.length);
+    console.log("this.props.album.albumImage", this.props.album.albumImage);
   }
 
   render() {
-    const { album } = this.props;
-    // console.log("album =============", album);
+    // console.log("props ========", this.props)
+    const imagePath = this.props.album.albumImage;
+    // const imageUri = 'file://' + imagePath;
     return (
-        <SectionList
-          style={styles.container}
-          sections={album}
-          renderItem={this._renderItems}
-          renderSectionHeader={this._renderSectionHeader}
-          keyExtractor={extractKey}
-        />
+        <TouchableHighlight
+          onPress={this._onPress}>
+          <Image
+            resizeMode='cover'
+            style={styles.imageBG}
+            source={{uri: "https://f4.bcbits.com/img/a2875020553_16.jpg"}}>
+            <View style={styles.container}>
+              <Text style={styles.title}>{this.props.album.title}</Text>
+              <Text style={styles.length}>{this.props.album.data.length} Tracks</Text>
+            </View>
+          </Image>
+        </TouchableHighlight>
       )
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: 'rgba(0,0,0,0.4)',
     paddingTop: 20,
     paddingBottom: 60,
     paddingLeft: 20,
     paddingRight: 20,
   },
-  dataItem: {
-    flex: 1,
-    backgroundColor: 'white',
-  },
-  dataSection: {
-    flex: 1,
-    backgroundColor: 'rgb(135, 111, 230)',
-  },
-  artistName: {
+  title: {
     color: "#FFF",
     backgroundColor: 'transparent',
     fontFamily: "Helvetica Neue",
@@ -68,11 +48,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     marginBottom: 5
   },
-  artistSongs: {
-    color: "#CCC",
-    backgroundColor: 'transparent',
-    fontFamily: "Helvetica Neue",
-    fontWeight: "300",
-    fontSize: 14
+  length: {
+  color: "#CCC",
+  backgroundColor: 'transparent',
+  fontFamily: "Helvetica Neue",
+  fontWeight: "300",
+  fontSize: 14
   }
 });
