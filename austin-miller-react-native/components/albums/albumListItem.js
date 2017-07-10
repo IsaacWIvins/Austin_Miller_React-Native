@@ -1,30 +1,31 @@
 import React from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image } from 'react-native';
+import AlbumShow from './albumShow';
 
 const extractKey = ({id}) => id;
 
 export default class AlbumListItem extends React.Component {
 
-  _onPress = () => {
-    console.log("pressed this.props.album.title", this.props.album.title);
-    console.log("this.props.album.data.length", this.props.album.data.length);
-    console.log("this.props.album.albumImage", this.props.album.albumImage);
+  handlePress = (item) => {
+
+    // console.log("working album ALBUMLISTITEM =====", item)
+    // console.log("this.props", this.props);
+    this.props._renderNavPage(item)
+
   }
 
   render() {
-    // console.log("props ========", this.props)
-    const imagePath = this.props.album.albumImage;
-    // const imageUri = 'file://' + imagePath;
+    const { album } = this.props;
     return (
         <TouchableHighlight
-          onPress={this._onPress}>
+          onPress={() => this.handlePress(album)}>
           <Image
             resizeMode='cover'
             style={styles.imageBG}
             source={{uri: "https://f4.bcbits.com/img/a2875020553_16.jpg"}}>
             <View style={styles.container}>
-              <Text style={styles.title}>{this.props.album.title}</Text>
-              <Text style={styles.length}>{this.props.album.data.length} Tracks</Text>
+              <Text style={styles.title}>{album.title}</Text>
+              <Text style={styles.length}>{album.data.length} Tracks</Text>
             </View>
           </Image>
         </TouchableHighlight>
