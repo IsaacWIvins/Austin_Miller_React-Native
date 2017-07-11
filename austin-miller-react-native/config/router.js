@@ -9,16 +9,27 @@ import Shows from '../screens/shows';
 import About from '../screens/about';
 import Player from '../screens/audioPlayer';
 
+const defaultNav = {
+  headerStyle: {
+    backgroundColor: 'black'
+  },
+  headerTintColor: 'whitesmoke'
+}
+
 export const SongList = StackNavigator({
+
   AlbumsList: {
     screen: AlbumsList,
+    headerMode: 'screen',
     navigationOptions: {
+      ...defaultNav,
       title: 'Albums',
     }
   },
   AlbumShow: {
     screen: AlbumShow,
     navigationOptions: ({ navigation }) => ({
+      ...defaultNav,
       title: `${navigation.state.params.title}`,
     }),
   }

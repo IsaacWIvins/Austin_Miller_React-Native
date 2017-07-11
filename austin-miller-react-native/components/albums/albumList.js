@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ListView } from 'react-native';
+import { StyleSheet, Text, View, ListView, StatusBar } from 'react-native';
 import AlbumListItem from './albumListItem';
 import { Austin } from "../../assets/austinData/austinData";
 
@@ -26,6 +26,7 @@ export default class AlbumsList extends React.Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={ ( austin ) => <AlbumListItem _renderNavPage={this._renderNavPage} album= { austin } /> }/>
+          <StatusBar barStyle="light-content" />
       </View>
     );
   }

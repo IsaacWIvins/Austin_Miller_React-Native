@@ -1,10 +1,6 @@
 import React from 'react';
 import { Image, Text, View, StyleSheet } from 'react-native';
 
-handlePress = (data) => {
-  console.log("working data", data)
-}
-
 const EngineCover = ({title, data}) =>
   <Image
     source={require('../../assets/images/engineCover.jpg')}

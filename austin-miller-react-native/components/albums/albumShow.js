@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableHighlight, FlatList } from 'react-native';
+import { StyleSheet, ScrollView, Text, View, Image, TouchableHighlight, FlatList } from 'react-native';
+import Backgrounds from '../backgrounds/albumBackground';
 
 const extractKey = ({id}) => id;
 
@@ -22,10 +23,15 @@ export default class AlbumShow extends React.Component {
 
   render() {
     const { albumImage, data, title, description } = this.props.navigation.state.params;
+    const ImgBackground = Backgrounds[title];
+    
     return (
       <ScrollView style={styles.container}>
         <Text style={styles.albumTitle}>{title}</Text>
         <Text style={styles.albumDescription}>{description}</Text>
+        <View>
+          {ImgBackground()}
+        </View>
         <FlatList
           data={data}
           style={styles.listContainer}
@@ -55,4 +61,7 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 30,
   },
+  bgImage: {
+    flex: 1,
+  }
 });

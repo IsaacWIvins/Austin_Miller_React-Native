@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableHighlight, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableHighlight, Image } from 'react-native';
 import Covers from '../coverPhotos/covers';
-const extractKey = ({ id }) => id;
 
 export default class AlbumListItem extends React.Component {
 
