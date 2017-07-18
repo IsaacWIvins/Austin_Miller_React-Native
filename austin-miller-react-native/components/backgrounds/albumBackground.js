@@ -22,9 +22,15 @@ const BirdsBackground = () =>
 const styles = StyleSheet.create({
   coverIMG: {
     flex: 1,
-    height: 200,
+    height: 250,
     width: null,
-  }
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  artistImg: {
+    height: 100,
+    width: 100,
+  },
 });
 
 var Backgrounds = {

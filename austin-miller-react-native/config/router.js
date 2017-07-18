@@ -4,10 +4,10 @@ import { Ionicons } from '@expo/vector-icons';
 
 import AlbumsList from '../components/albums/albumList';
 import AlbumShow from '../components/albums/albumShow';
+import Player from '../components/audio/audioPlayer';
 import Connect from '../screens/contact';
 import Shows from '../screens/shows';
 import About from '../screens/about';
-import Player from '../screens/audioPlayer';
 
 const defaultNav = {
   headerStyle: {
@@ -32,6 +32,13 @@ export const SongList = StackNavigator({
       ...defaultNav,
       title: `${navigation.state.params.title}`,
     }),
+  },
+  Player: {
+    screen: Player,
+    navigationOptions: {
+      ...defaultNav,
+      title: 'Songs',
+    }
   }
 })
 
@@ -70,5 +77,12 @@ export const Tabs = TabNavigator({
       tabBarLabel: 'Player',
       tabBarIcon: ({ tintColor }) => <Ionicons name="md-play" size={35} color={tintColor} />
     }
-  },
+  }
+},
+{
+  tabBarOptions: {
+    style: {
+      backgroundColor: 'black',
+    },
+  }
 });

@@ -7,13 +7,12 @@ const extractKey = ({id}) => id;
 export default class AlbumShow extends React.Component {
 
   _handlePress = (audio) => {
-    console.log("pressed");
-    console.log("audio == ", audio)
+    this.props.navigation.navigate('Player', { ...audio });
   }
 
   renderData = ({ item }) => {
     return (
-      <TouchableHighlight onPress={() => this._handlePress(item.audio)}>
+      <TouchableHighlight onPress={() => this._handlePress(item)}>
         <View style={styles.songContainer}>
           <Text style={styles.songTitle}>{item.title}</Text>
         </View>
@@ -24,14 +23,13 @@ export default class AlbumShow extends React.Component {
   render() {
     const { albumImage, data, title, description } = this.props.navigation.state.params;
     const ImgBackground = Backgrounds[title];
-    
+
     return (
       <ScrollView style={styles.container}>
-        <Text style={styles.albumTitle}>{title}</Text>
-        <Text style={styles.albumDescription}>{description}</Text>
         <View>
           {ImgBackground()}
         </View>
+        <Text style={styles.albumDescription}>{description}</Text>
         <FlatList
           data={data}
           style={styles.listContainer}
@@ -46,16 +44,26 @@ export default class AlbumShow extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#686273',
+    backgroundColor: '#333',
+  },
+  albumDescription: {
+    color: '#ccc',
+    fontWeight: '500',
+    fontSize: 18,
+    padding: 15,
   },
   listContainer: {
     flex: 1,
-    marginTop: 20,
   },
   songTitle: {
-    fontWeight: '500',
-    fontSize: 20,
+    fontWeight: '700',
+    color: 'white',
+    fontSize: 23,
     padding: 10,
+  },
+  songContainer: {
+    backgroundColor: 'black',
+    marginTop: 7,
   },
   albumTitle: {
     fontWeight: '700',
