@@ -5,20 +5,18 @@ import { Ionicons } from '@expo/vector-icons';
 
 export default class Player extends React.Component {
 
-  _handlePlaySoundAsync = async () => {
-    await Expo.Audio.setIsEnabledAsync(true);
-    const sound = new Expo.Audio.Sound();
-    await sound.loadAsync(require('../../assets/music/E-01-CurseTheRoad.mp3'));
-    await sound.playAsync();
-  };
+  // _handlePlaySoundAsync = async () => {
+  //   await Expo.Audio.setIsEnabledAsync(true);
+  //   const sound = new Expo.Audio.Sound();
+  //   await sound.loadAsync(require('../../assets/music/E-01-CurseTheRoad.mp3'));
+  //   await sound.playAsync();
+  // };
 
   _renderSong = () => {
 
   }
 
   render() {
-    // console.log('==================', this.props.navigation.state.params);
-    // const { albumImage, id, title, audio } = this.props.navigation.state.params;
 
     return (
       <Image
