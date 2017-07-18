@@ -1,88 +1,110 @@
-import React from 'react';
-import { TabNavigator, StackNavigator } from 'react-navigation';
-import { Ionicons } from '@expo/vector-icons';
+import React, { Component } from 'react'
+import { TabNavigator, StackNavigator, DrawerNavigator } from 'react-navigation'
+import { Button } from 'react-native'
+import { Ionicons } from '@expo/vector-icons'
+import { SocialIcon } from 'react-native-elements'
 
-import AlbumsList from '../components/albums/albumList';
-import AlbumShow from '../components/albums/albumShow';
-import Player from '../components/audio/audioPlayer';
-import Connect from '../screens/contact';
-import Shows from '../screens/shows';
-import About from '../screens/about';
+import AlbumsListData from '../components/album/albumlist'
+import SongsList from '../components/album/songslist'
+import About from '../components/about/about'
+import Facebook from '../components/connect/facebook'
+import Spotify from '../components/connect/spotify'
+import BandCamp from '../components/connect/bandcamp'
 
 const defaultNav = {
   headerStyle: {
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    padding: 15,
+    height: 40,
   },
-  headerTintColor: 'whitesmoke'
+  headerTintColor: 'whitesmoke',
 }
 
-export const SongList = StackNavigator({
-
-  AlbumsList: {
-    screen: AlbumsList,
+export const MusicStack = StackNavigator({
+  AlbumsListData: {
+    screen: AlbumsListData,
     headerMode: 'screen',
     navigationOptions: {
       ...defaultNav,
       title: 'Albums',
     }
   },
-  AlbumShow: {
-    screen: AlbumShow,
+  SongsList: {
+    screen: SongsList,
     navigationOptions: ({ navigation }) => ({
       ...defaultNav,
-      title: `${navigation.state.params.title}`,
+      title: `${navigation.state.params.albumName}`,
     }),
-  },
-  Player: {
-    screen: Player,
-    navigationOptions: {
-      ...defaultNav,
-      title: 'Songs',
-    }
   }
-})
-
-export const Tabs = TabNavigator({
-  AlbumsList: {
-    screen: SongList,
+});
+SocialIcon
+export const ConnectTabs = TabNavigator({
+  Facebook: {
+    screen: Facebook,
+    headerMode: 'screen',
+    navigationOptions: {
+      tabBarIcon: ({ tintColor }) => <SocialIcon type="facebook" size={35} color={tintColor} />
+    }
+  },
+  Spotify: {
+    screen: Spotify,
     navigationOptions: {
       tabBarLabel: 'Music',
-      tabBarIcon: ({ tintColor }) => <Ionicons name="md-musical-notes" size={35} color={tintColor} />
+      tabBarIcon: ({ tintColor }) => <SocialIcon type="soundcloud" size={35} color={tintColor} />
     }
   },
-  Shows: {
-    screen: Shows,
+  BandCamp: {
+    screen: BandCamp,
     navigationOptions: {
-      tabBarLabel: 'Shows',
-      tabBarIcon: ({ tintColor }) => <Ionicons name="md-calendar" size={35} color={tintColor} />
-    }
-  },
-  Connect: {
-    screen: Connect,
-    navigationOptions: {
-      tabBarLabel: 'Connect',
-      tabBarIcon: ({ tintColor }) => <Ionicons name="md-contact" size={35} color={tintColor} />
-    }
-  },
-  About: {
-    screen: About,
-    navigationOptions: {
-      tabBarLabel: 'About',
-      tabBarIcon: ({ tintColor }) => <Ionicons name="md-glasses" size={35} color={tintColor} />
-    }
-  },
-  Player: {
-    screen: Player,
-    navigationOptions: {
-      tabBarLabel: 'Player',
-      tabBarIcon: ({ tintColor }) => <Ionicons name="md-play" size={35} color={tintColor} />
+      ...defaultNav,
+      title: 'BandCamp',
     }
   }
 },
 {
   tabBarOptions: {
+    showLabel: false,
     style: {
-      backgroundColor: 'black',
+      height: 55,
+      backgroundColor: 'transparent',
     },
+    activeBackgroundColor: 'rgb(50, 51, 48)',
   }
-});
+},);
+
+export const Tabs = TabNavigator(
+  {
+    MusicStack: {
+      screen: MusicStack,
+      navigationOptions: {
+        tabBarLabel: 'Music',
+        tabBarIcon: ({ tintColor }) => <Ionicons name="md-musical-notes" size={35} color={tintColor} />
+      }
+    },
+    About: {
+      screen: About,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => <Ionicons name="md-information-circle" size={35} color={tintColor} />
+      }
+    },
+    ConnectTabs: {
+      screen: ConnectTabs,
+      navigationOptions: {
+        tabBarIcon: ({ tintColor }) => <Ionicons name="md-calendar" size={35} color={tintColor} />
+      }
+    }
+  },
+  {
+    tabBarPosition: 'top',
+    tabBarOptions: {
+      style: {
+        marginTop: 20,
+        backgroundColor: 'black',
+      },
+      activeTintColor: 'white',
+      showLabel: false,
+    }
+  },
+);
+
+export default Tabs;
