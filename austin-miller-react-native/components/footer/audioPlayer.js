@@ -1,8 +1,17 @@
 import React, { Component } from 'react'
-import { AppRegistry, Animated, View, Image, StyleSheet, Text, TouchableOpacity, Dimensions } from 'react-native'
-import { Ionicons } from '@expo/vector-icons';
+import { AppRegistry,
+  Animated,
+  View,
+  Image,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  Dimensions } from 'react-native'
+  import { Ionicons } from '@expo/vector-icons';
 
-export default class AudioPlayer extends Component {
+import { graphql, gql  } from 'react-apollo';
+
+export class AudioPlayer extends Component {
 
   _handlePress = () => {
     this.props.changer(8)
@@ -10,6 +19,7 @@ export default class AudioPlayer extends Component {
   }
 
   render() {
+    console.log("///////////////// AudioPlayer PROPS /////////////", this.props)
     return (
         <View style={styles.container}>
 
@@ -125,3 +135,27 @@ const styles = StyleSheet.create({
     margin: 10,
   },
 })
+
+const QUEUEQUERY = gql`
+  query songs {
+  allQueues {
+    name
+    songses {
+      title
+      file {
+        url
+      }
+      album {
+        image {
+          file {
+            url
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const withSongs = graphql(QUEUEQUERY);
+
+export default withSongs(AudioPlayer);
