@@ -6,6 +6,7 @@ import { AppRegistry,
   StyleSheet,
   Text,
   TouchableOpacity,
+  ActivityIndicator,
   Dimensions } from 'react-native'
   import { Ionicons } from '@expo/vector-icons';
 
@@ -18,11 +19,37 @@ export class AudioPlayer extends Component {
     this.props.navigation.navigate('NewFooter');
   }
 
+  _renderSongses = ({ songses }) => {
+    return songses.map(this._renderImage)
+  }
+
+  _renderImage = ({ album, file, title }) => {
+    console.log("album: ", album)
+    console.log("file: ", file)
+    console.log("title: ", title)
+    const { url } = album.image.file
+    const songUrl = file.url
+    console.log("url: ", url)
+    console.log("songUrl: ", songUrl)
+    return (
+      <View style={styles.imageContainer}>
+        <Image
+          style={styles.albumImage}
+          source={{uri: url}} />
+          <View style={styles.header}>
+            <Text style={styles.songTitle}>{title}</Text>
+          </View>
+      </View>
+      )
+  }
   render() {
-    console.log("///////////////// AudioPlayer PROPS /////////////", this.props)
+    const { data } = this.props
+    const { loading , allQueues} = data
+    if (loading) {
+      return <ActivityIndicator />
+    }
     return (
         <View style={styles.container}>
-
           <View style={styles.makeShiftNave}>
             <TouchableOpacity onPress={this._handlePress}>
               <View style={styles.back}>
@@ -31,15 +58,7 @@ export class AudioPlayer extends Component {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.imageContainer}>
-            <Image
-              style={styles.albumImage}
-              source={require('../../assets/images/austinOnStage.jpg')} />
-          </View>
-
-          <View style={styles.header}>
-            <Text style={styles.songTitle}>Curse The Road</Text>
-          </View>
+            {allQueues.map(this._renderSongses)}
 
           <View style={styles.controllerContainer}>
 
