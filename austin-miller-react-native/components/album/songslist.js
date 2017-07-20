@@ -21,15 +21,20 @@ export class SongsList extends Component {
 
   _handleSongPlay = (data) => {
     //mutation with this file
-    console.log("///// QUEUEMUTATION /////", QUEUEMUTATION)
-    console.log("this.props ========", this.props)
-    console.log("data.id: ", data.id)
-    // console.log("data.title: ", data.title)
-    // console.log("data.trackNumber: ", data.trackNumber)
-    // console.log("data.file: ", data.file)
+    // console.log("///// QUEUEMUTATION /////", QUEUEMUTATION)
+    // console.log("this.props ========", this.props.QUEUEMUTATION)
+    // console.log("data", data.Symbol)
+    const vary = data.id
+
+    this.props.QUEUEMUTATION({
+      variables: { songsesSongsId: vary }
+    }).then(() => {
+      console.log("completed")
+    })
   }
 
   _songRender = (data) => {
+    console.log("///// data songRender /////", data)
     return(
       <TouchableHighlight
         key={data.id}
@@ -69,7 +74,7 @@ export class SongsList extends Component {
   }
 
   render() {
-    console.log("this.props =========================", this.props)
+    // console.log("this.props =========================", this.props)
     const { SONGQUERY, QUEUEMUTATION } = this.props
     const { allAlbums, loading, error } = SONGQUERY
     // console.log("///// QUEUEMUTATION /////", QUEUEMUTATION)
@@ -154,7 +159,14 @@ gql`mutation ($songsesSongsId: ID!) {
   addToQueueOnSongs(
     queueQueueId: "cj5a7y8r32dp70115vqctwbzf",
     songsesSongsId: $songsesSongsId
-  )
+  ) {
+    queueQueue {
+      name
+      songses {
+        title
+      }
+    }
+  }
 }`
 
 export const Wrapper = compose(
