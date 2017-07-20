@@ -19,7 +19,6 @@ export class AlbumsListData extends Component {
 
 
   _handlePress = ( albumName ) => {
-    // console.log("================== NAV PROPS ================", this.props)
     console.log("Pressed: ", albumName)
     this.props.navigation.navigate('SongsList', { albumName });
   }
@@ -44,7 +43,6 @@ export class AlbumsListData extends Component {
   }
 
   render() {
-    // console.log("================== NAV PROPS ================", this.props)
     const {data} = this.props
     const {loading, allAlbums} = data
     if (loading) {
