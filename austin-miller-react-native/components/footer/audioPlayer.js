@@ -24,18 +24,24 @@ export class AudioPlayer extends Component {
   }
 
   _renderImage = ({ album, file, title }) => {
-    console.log("album: ", album)
-    console.log("file: ", file)
-    console.log("title: ", title)
     const { url } = album.image.file
     const songUrl = file.url
+    console.log("title: ", title)
     console.log("url: ", url)
     console.log("songUrl: ", songUrl)
     return (
-      <View style={styles.imageContainer}>
+      <View style={styles.queryContainer}>
         <Image
           style={styles.albumImage}
-          source={{uri: url}} />
+          source={{uri: url}}>
+            <View style={styles.makeShiftNave}>
+              <TouchableOpacity onPress={this._handlePress}>
+                <View style={styles.back}>
+                  <Text style={styles.backText}>Back</Text>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </Image>
           <View style={styles.header}>
             <Text style={styles.songTitle}>{title}</Text>
           </View>
@@ -50,13 +56,6 @@ export class AudioPlayer extends Component {
     }
     return (
         <View style={styles.container}>
-          <View style={styles.makeShiftNave}>
-            <TouchableOpacity onPress={this._handlePress}>
-              <View style={styles.back}>
-                <Text>Back</Text>
-              </View>
-            </TouchableOpacity>
-          </View>
 
             {allQueues.map(this._renderSongses)}
 
@@ -114,32 +113,39 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: 'black',
     justifyContent: 'flex-start',
-    alignItems: 'center',
+    alignItems: 'stretch',
   },
   back: {
     height: 20,
     marginTop: 20,
+    marginLeft: 20,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'flex-start',
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
+  },
+  backText: {
+    fontSize: 22,
+    fontWeight: '500',
   },
   header: {
     padding: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   songTitle: {
     color: 'white',
     fontWeight: '500',
     fontSize: 25,
   },
-  imageContainer: {
+  queryContainer: {
     marginTop: 20,
-    height: 250,
+    height: 375,
   },
   albumImage: {
     flex: 1,
-    height: 250,
-    width: 250,
+    height: null,
+    width: null,
   },
   controllerContainer: {
     flex: 1,

@@ -10,8 +10,8 @@ import {
   ActivityIndicator,
   FlatList } from 'react-native'
 
-import gql from 'graphql-tag';
-import { graphql } from 'react-apollo';
+// import gql from 'graphql-tag';
+import { graphql, compose, gql } from 'react-apollo';
 
 export class SongsList extends Component {
 
@@ -19,18 +19,24 @@ export class SongsList extends Component {
 
   }
 
-  _handleSongPlay = (file) => {
+  _handleSongPlay = (data) => {
     //mutation with this file
+    console.log("///// QUEUEMUTATION /////", QUEUEMUTATION)
+    console.log("this.props ========", this.props)
+    console.log("data.id: ", data.id)
+    // console.log("data.title: ", data.title)
+    // console.log("data.trackNumber: ", data.trackNumber)
+    // console.log("data.file: ", data.file)
   }
 
-  _songRender = ({ id, file, title, trackNumber }) => {
+  _songRender = (data) => {
     return(
       <TouchableHighlight
-        key={title}
+        key={data.id}
         style={styles.songHighLight}
-        onPress={() => this._handleSongPlay(file)}>
+        onPress={() => this._handleSongPlay(data)}>
         <Text style={styles.songText}>
-          {trackNumber}: {title}
+          {data.trackNumber}: {data.title}
         </Text>
       </TouchableHighlight>
     )
@@ -64,11 +70,13 @@ export class SongsList extends Component {
 
   render() {
     console.log("this.props =========================", this.props)
-    const { data } = this.props
-    const { allAlbums, loading, error } = data
+    const { SONGQUERY, QUEUEMUTATION } = this.props
+    const { allAlbums, loading, error } = SONGQUERY
+    // console.log("///// QUEUEMUTATION /////", QUEUEMUTATION)
     if (loading) {
       return <ActivityIndicator />
     }
+    // console.log("///// SONGQUERY /////", SONGQUERY)
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -117,28 +125,42 @@ const styles = StyleSheet.create({
   }
 })
 
-export const SONGQUERY = gql`
-  query albums {
-    allAlbums {
-      id
+export const SONGQUERY =
+gql` query albums {
+  allAlbums {
+    id
+    name
+    description
+    artistName
+    image {
       name
-      description
-      artistName
-      image {
-        name
-        file {
-          url
-        }
-      }
-      songses {
-        trackNumber
-        title
-        file {
-          url
-        }
+      file {
+        url
       }
     }
-  }`
+    songses {
+      id
+      trackNumber
+      title
+      file {
+        url
+      }
+    }
+  }
+}`
 
-export const withSongs = graphql(SONGQUERY);
-export default withSongs(SongsList)
+export const QUEUEMUTATION =
+gql`mutation ($songsesSongsId: ID!) {
+  addToQueueOnSongs(
+    queueQueueId: "cj5a7y8r32dp70115vqctwbzf",
+    songsesSongsId: $songsesSongsId
+  )
+}`
+
+export const Wrapper = compose(
+  graphql(SONGQUERY, { name: 'SONGQUERY' }),
+  graphql(QUEUEMUTATION, { name: 'QUEUEMUTATION' }),
+);
+
+// export const withSongs = graphql(SONGQUERY);
+export default Wrapper(SongsList)
