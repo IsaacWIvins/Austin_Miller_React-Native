@@ -5,6 +5,7 @@ import { AppRegistry,
   Image,
   StyleSheet,
   Text,
+  ScrollView,
   TouchableOpacity,
   ActivityIndicator,
   Dimensions } from 'react-native'
@@ -56,6 +57,7 @@ export class AudioPlayer extends Component {
     }
     return (
         <View style={styles.container}>
+          <ScrollView>
 
             {allQueues.map(this._renderSongses)}
 
@@ -102,6 +104,7 @@ export class AudioPlayer extends Component {
             </TouchableOpacity>
 
           </View>
+          </ScrollView>
 
         </View>
     )

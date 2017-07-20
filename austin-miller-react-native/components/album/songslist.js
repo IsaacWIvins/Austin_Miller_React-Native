@@ -10,7 +10,6 @@ import {
   ActivityIndicator,
   FlatList } from 'react-native'
 
-// import gql from 'graphql-tag';
 import { graphql, compose, gql } from 'react-apollo';
 
 export class SongsList extends Component {
@@ -20,21 +19,15 @@ export class SongsList extends Component {
   }
 
   _handleSongPlay = (data) => {
-    //mutation with this file
-    // console.log("///// QUEUEMUTATION /////", QUEUEMUTATION)
-    // console.log("this.props ========", this.props.QUEUEMUTATION)
-    // console.log("data", data.Symbol)
-    const vary = data.id
-
+    const { id } = data
     this.props.QUEUEMUTATION({
-      variables: { songsesSongsId: vary }
+      variables: { songsesSongsId: id }
     }).then(() => {
       console.log("completed")
     })
   }
 
   _songRender = (data) => {
-    console.log("///// data songRender /////", data)
     return(
       <TouchableHighlight
         key={data.id}
@@ -74,14 +67,11 @@ export class SongsList extends Component {
   }
 
   render() {
-    // console.log("this.props =========================", this.props)
     const { SONGQUERY, QUEUEMUTATION } = this.props
     const { allAlbums, loading, error } = SONGQUERY
-    // console.log("///// QUEUEMUTATION /////", QUEUEMUTATION)
     if (loading) {
       return <ActivityIndicator />
     }
-    // console.log("///// SONGQUERY /////", SONGQUERY)
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -155,7 +145,7 @@ gql` query albums {
 }`
 
 export const QUEUEMUTATION =
-gql`mutation ($songsesSongsId: ID!) {
+gql` mutation ($songsesSongsId: ID!) {
   addToQueueOnSongs(
     queueQueueId: "cj5a7y8r32dp70115vqctwbzf",
     songsesSongsId: $songsesSongsId
@@ -174,5 +164,4 @@ export const Wrapper = compose(
   graphql(QUEUEMUTATION, { name: 'QUEUEMUTATION' }),
 );
 
-// export const withSongs = graphql(SONGQUERY);
 export default Wrapper(SongsList)

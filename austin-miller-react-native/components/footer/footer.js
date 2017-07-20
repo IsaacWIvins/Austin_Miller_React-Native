@@ -1,7 +1,15 @@
 import React, { Component } from 'react'
-import { AppRegistry, Animated, View, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import {
+  AppRegistry,
+  Animated,
+  ActivityIndicator,
+  View,
+  StyleSheet,
+  Text,
+  TouchableOpacity } from 'react-native'
+import { graphql, gql  } from 'react-apollo';
 
-export default class Footer extends Component {
+export class Footer extends Component {
   constructor(props){
     super(props)
   }
@@ -12,8 +20,18 @@ export default class Footer extends Component {
   }
 
   render() {
-    // console.log("style props /////////////////////", this.props)
-    // console.log("style state", this.state)
+    // console.log(" props /////////////////////", this.props)
+    console.log(" state", this.state)
+    const { data } = this.props
+    const {loading, allQueues} = data
+    console.log(" data /////////////////////", data)
+    console.log(" loading /////////////////////", loading)
+    console.log(" allQueues /////////////////////", allQueues)
+
+    if (loading) {
+      return <ActivityIndicator />
+    }
+
     return (
         <View style={styles.footer}>
           <TouchableOpacity onPress={this._hitPress}>
@@ -37,3 +55,22 @@ const styles = StyleSheet.create({
     color: 'white'
   }
 })
+
+const FOOTERQUERY = gql`
+  query songs {
+  allQueues {
+    songses {
+      title
+      album {
+        image {
+          file {
+            url
+          }
+        }
+      }
+    }
+  }
+}`;
+
+export const withQueue = graphql(FOOTERQUERY);
+export default withQueue(Footer);
