@@ -19,25 +19,30 @@ export class Footer extends Component {
     this.props.navigation.navigate('OldAudio');
   }
 
+  _renderFooter = ({ title }, i) => {
+    console.log(" title /////////////////////", title)
+    console.log(" i //////////////////", i)
+    return(
+      <View style={styles.renderView}>
+          <Text style={styles.footerText}>Hit Me</Text>
+      </View>
+    )
+  }
+
   render() {
-    // console.log(" props /////////////////////", this.props)
-    console.log(" state", this.state)
+
+    // console.log(" state", this.state)
     const { data } = this.props
-    const {loading, allQueues} = data
-    console.log(" data /////////////////////", data)
-    console.log(" loading /////////////////////", loading)
-    console.log(" allQueues /////////////////////", allQueues)
+    const { loading, allQueues } = data
 
     if (loading) {
       return <ActivityIndicator />
     }
 
     return (
-        <View style={styles.footer}>
-          <TouchableOpacity onPress={this._hitPress}>
-            <Text style={styles.footerText}>Hit Me</Text>
-          </TouchableOpacity>
-        </View>
+      <TouchableOpacity style={styles.footer} onPress={this._hitPress}>
+        {allQueues.map( ({songses}) => { songses.map(this._renderFooter)})}
+      </TouchableOpacity>
     )
   }
 }
@@ -51,9 +56,15 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: '#333'
   },
+  renderView: {
+    flex: 1,
+    backgroundColor: 'rgb(29, 216, 235)'
+  },
   footerText: {
-    color: 'white'
-  }
+    backgroundColor: 'white',
+    fontSize: 30,
+    color: 'white',
+  },
 })
 
 const FOOTERQUERY = gql`
