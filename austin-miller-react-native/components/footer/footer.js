@@ -8,7 +8,8 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity } from 'react-native'
-import { graphql, gql  } from 'react-apollo';
+  import { Ionicons } from '@expo/vector-icons'
+import { graphql, gql  } from 'react-apollo'
 
 export class Footer extends Component {
 
@@ -26,7 +27,7 @@ export class Footer extends Component {
   }
 
   _togglePlayPause = () => {
-    if(this.state.audioPlaying){
+    if (this.state.audioPlaying){
       this.setState({
         audioPlaying: false
       })
@@ -34,6 +35,18 @@ export class Footer extends Component {
       this.setState({
         audioPlaying: true
       })
+    }
+  }
+
+  _renderPlayPauseButtons = () => {
+    if (this.state.audioPlaying){
+      return(
+        <Ionicons name="md-pause" size={45} color='white' />
+      )
+    } else if (!this.state.audioPlaying) {
+      return(
+        <Ionicons name="md-play" size={45} color='white' />
+      )
     }
   }
 
@@ -79,7 +92,7 @@ export class Footer extends Component {
         </View>
         <View style={styles.playPauseButton}>
           <TouchableOpacity onPress={this._togglePlayPause}>
-            <Text>Play Button</Text>
+            {this._renderPlayPauseButtons()}
           </TouchableOpacity>
         </View>
       </View>
@@ -107,7 +120,8 @@ const styles = StyleSheet.create({
   },
   playPauseButton: {
     flex: 1,
-    backgroundColor: 'red',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   renderView: {
     flex: 1,
