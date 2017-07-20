@@ -3,6 +3,7 @@ import {
   AppRegistry,
   Animated,
   ActivityIndicator,
+  Image,
   View,
   StyleSheet,
   Text,
@@ -10,8 +11,12 @@ import {
 import { graphql, gql  } from 'react-apollo';
 
 export class Footer extends Component {
+
   constructor(props){
     super(props)
+    this.state = {
+      queueIndex: 0
+    };
   }
 
   _hitPress = () => {
@@ -19,14 +24,34 @@ export class Footer extends Component {
     this.props.navigation.navigate('OldAudio');
   }
 
-  _renderFooter = ({ title }, i) => {
-    console.log(" title /////////////////////", title)
-    console.log(" i //////////////////", i)
-    return(
-      <View style={styles.renderView}>
-          <Text style={styles.footerText}>Hit Me</Text>
-      </View>
-    )
+  // _renderFooter = (data, i) => {
+  //   console.log(" data /////////////////////", data)
+  //   console.log(" i //////////////////", i)
+  //   return(
+  //         <Text style={styles.footerText}>Hit Me</Text>
+  //   )
+  // }
+  renderQueues = (data) => {
+    const { queueIndex } = this.state
+    const footerSong = data.songses[queueIndex]
+    const url = footerSong.album.image.file.url
+    console.log(" data.songses[queueIndex] /////////////", data.songses[queueIndex])
+    console.log(" footerSong /////////////", footerSong)
+    console.log(" url /////////////", url)
+      return(
+        <View key={footerSong.title} style={styles.renderView}>
+          <View style={styles.imageContainer}>
+            <Image
+              source={{uri: url}}
+              resizeMode='cover'
+              style={styles.footerImage}
+            />
+          </View>
+          <View style={styles.textContainer}>
+            <Text style={styles.footerText}>{footerSong.title}</Text>
+          </View>
+        </View>
+      )
   }
 
   render() {
@@ -41,7 +66,10 @@ export class Footer extends Component {
 
     return (
       <TouchableOpacity style={styles.footer} onPress={this._hitPress}>
-        {allQueues.map( ({songses}) => { songses.map(this._renderFooter)})}
+        {/* <View style={styles.renderView}> */}
+          {/* {allQueues.map( ({songses}) => { return songses.map(this._renderFooter)})} */}
+          {allQueues.map(this.renderQueues)}
+        {/* </View> */}
       </TouchableOpacity>
     )
   }
@@ -51,19 +79,34 @@ const styles = StyleSheet.create({
   footer: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     backgroundColor: 'black',
     borderWidth: 2,
     borderColor: '#333'
   },
   renderView: {
     flex: 1,
-    backgroundColor: 'rgb(29, 216, 235)'
+    flexDirection: 'row',
+  },
+  imageContainer: {
+    height: 58,
+    width: 58,
+    marginLeft: 20,
+  },
+  footerImage: {
+    flex: 1,
+    opacity: .7,
+    // backgroundColor: 'blue'
+    // tintColor: '#b4b4b4',
+  },
+  textContainer: {
+    justifyContent: 'center',
   },
   footerText: {
-    backgroundColor: 'white',
-    fontSize: 30,
-    color: 'white',
+    marginLeft: 40,
+    color: '#b4b4b4',
+    fontSize: 18,
+    fontWeight: '300',
   },
 })
 
