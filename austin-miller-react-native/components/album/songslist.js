@@ -20,8 +20,9 @@ export class SongsList extends Component {
 
   _handleSongPlay = (data) => {
     const { id } = data
-    this.props.QUEUEMUTATION({
-      variables: { songsesSongsId: id }
+    console.log(" ========== songlist =========", data)
+    this.props.createQueue({
+      variables: { songsId: id }
     }).then(() => {
       console.log("completed")
     })
@@ -67,7 +68,7 @@ export class SongsList extends Component {
   }
 
   render() {
-    const { SONGQUERY, QUEUEMUTATION } = this.props
+    const { SONGQUERY, createQueue } = this.props
     const { allAlbums, loading, error } = SONGQUERY
     if (loading) {
       return <ActivityIndicator />
@@ -120,48 +121,47 @@ const styles = StyleSheet.create({
   }
 })
 
-export const SONGQUERY =
-gql` query albums {
-  allAlbums {
-    id
-    name
-    description
-    artistName
-    image {
-      name
-      file {
-        url
-      }
-    }
-    songses {
+export const SONGQUERY = gql`
+  query albums {
+    allAlbums {
       id
-      trackNumber
-      title
-      file {
-        url
-      }
-    }
-  }
-}`
-
-export const QUEUEMUTATION =
-gql` mutation ($songsesSongsId: ID!) {
-  addToQueueOnSongs(
-    queueQueueId: "cj5a7y8r32dp70115vqctwbzf",
-    songsesSongsId: $songsesSongsId
-  ) {
-    queueQueue {
       name
+      description
+      artistName
+      image {
+        name
+        file {
+          url
+        }
+      }
       songses {
+        id
+        trackNumber
         title
+        file {
+          url
+        }
       }
     }
   }
-}`
+`
+
+const createQueue = gql`
+  mutation createQueue($songsId: ID!) {
+    createQueue(songsId: $songsId) {
+      id
+      songs {
+        file {
+          url
+        }
+      }
+    }
+  }
+`
 
 export const Wrapper = compose(
   graphql(SONGQUERY, { name: 'SONGQUERY' }),
-  graphql(QUEUEMUTATION, { name: 'QUEUEMUTATION' }),
+  graphql(createQueue, { name: 'createQueue' }),
 );
 
 export default Wrapper(SongsList)

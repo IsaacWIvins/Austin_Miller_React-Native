@@ -9,7 +9,7 @@ import {
   Text,
   TouchableOpacity } from 'react-native'
   import { Ionicons } from '@expo/vector-icons'
-import { graphql, gql  } from 'react-apollo'
+import { graphql, gql, compose } from 'react-apollo'
 
 export class Footer extends Component {
 
@@ -19,6 +19,28 @@ export class Footer extends Component {
       queueIndex: 0,
       audioPlaying: false
     };
+  }
+
+  componentWillMount() {
+    // console.log("this.props ++++++++++: ", this.props)
+    // console.log(" ////////////////////////// FOOTERQUERY", FOOTERQUERY)
+    // console.log(" ////////////////////////// FOOTERSUBSCRIPTION", FOOTERSUBSCRIPTION)
+    // console.log("this.props.FOOTERQUERY.subscribeToMore ++++++++++: ", this.props.FOOTERQUERY.subscribeToMore)
+    // this.props.FOOTERQUERY.subscribeToMore({
+    //   document: FOOTERSUBSCRIPTION,
+    //   updateQuery: (prev, {subscriptionData}) => {
+    //     console.log("subscriptionData ======: ", subscriptionData)
+    //     if (!subscriptionData) {
+    //       return prev;
+    //     }
+    //     const { node } = subscriptionData.data.Queue
+    //     console.log("node ///////////: ", node)
+        // return {
+        //   ...prev,
+        //   allBooks: [...prev.allBooks, node],
+        // }
+    //   }
+    // })
   }
 
   _hitPress = () => {
@@ -75,9 +97,11 @@ export class Footer extends Component {
   }
 
   render() {
-    console.log(" ////////////////////////// props", this.props)
     const { data } = this.props
-    const { loading } = data
+    console.log("////////////// data ////////////", data )
+    // console.log(" ////////////////////////// FOOTERQUERY", FOOTERQUERY)
+    // console.log(" ////////////////////////// FOOTERSUBSCRIPTION", FOOTERSUBSCRIPTION)
+    const { loading, allQueues } = data
 
     if (loading) {
       return <ActivityIndicator />
@@ -95,7 +119,7 @@ export class Footer extends Component {
         </View>
         <View style={styles.playPauseButton}>
           <TouchableOpacity onPress={this._togglePlayPause}>
-            {/* {this._renderPlayPauseButtons()} */}
+            {this._renderPlayPauseButtons()}
           </TouchableOpacity>
         </View>
       </View>
@@ -148,11 +172,11 @@ const styles = StyleSheet.create({
     fontWeight: '300',
   },
 })
-//
+
 const FOOTERQUERY = gql`
   query songs {
   allQueues {
-    songses {
+    songs {
       title
       album {
         image {
@@ -165,34 +189,37 @@ const FOOTERQUERY = gql`
   }
 }`;
 
-const FOOTERSUBSCRIPTION = gql`
-subscription {
-  Queue(
-    filter: {
-      mutation_in: [UPDATED]
-    }
-  ) {
-    mutation
-    node {
-      name
-      songses{
-        id
-        title
-        trackNumber
-        file {
-          url
-        }
-        album {
-          image {
-            file {
-              url
-            }
-          }
-        }
-      }
-    }
-  }
-}`
+// const FOOTERSUBSCRIPTION = gql`
+// subscription {
+//   Queue (filter: {
+//       mutation_in: [CREATED]
+//       node: {
+//         songses
+//       }
+//     }
+//   ) {
+//     mutation
+//     node {
+//       name
+//       songses{
+//         id
+//         title
+//         trackNumber
+//         file {
+//           url
+//         }
+//         album {
+//           image {
+//             file {
+//               url
+//             }
+//           }
+//         }
+//       }
+//     }
+//   }
+// }`
+
 export default graphql(FOOTERQUERY)(Footer);
 // graphql(FOOTERQUERY)(Footer);
 // export const FooterWrapper = compose(
