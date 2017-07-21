@@ -21,34 +21,32 @@ export class Footer extends Component {
     };
   }
 
-  componentWillMount() {
-    // console.log("this.props ++++++++++: ", this.props)
-    // console.log(" ////////////////////////// FOOTERQUERY", FOOTERQUERY)
-    // console.log(" ////////////////////////// FOOTERSUBSCRIPTION", FOOTERSUBSCRIPTION)
-    // console.log("this.props.FOOTERQUERY.subscribeToMore ++++++++++: ", this.props.FOOTERQUERY.subscribeToMore)
-    // this.props.FOOTERQUERY.subscribeToMore({
-    //   document: FOOTERSUBSCRIPTION,
-    //   updateQuery: (prev, {subscriptionData}) => {
-    //     console.log("subscriptionData ======: ", subscriptionData)
-    //     if (!subscriptionData) {
-    //       return prev;
-    //     }
-    //     const { node } = subscriptionData.data.Queue
-    //     console.log("node ///////////: ", node)
-        // return {
-        //   ...prev,
-        //   allBooks: [...prev.allBooks, node],
-        // }
-    //   }
-    // })
+  async componentDidMount() {
+    console.log("////////////// data ////////////", this.props )
+    this._subscribeToQueue()
+  }
+
+  _subscribeToQueue = () => {
+    this.createQueueSubscription = this.props.data.subscribeToMore({
+      document: FOOTERSUB,
+      updateQuery: (previousState, {subscriptionData}) => {
+        const newMessage = subscriptionData.data.Message.node
+        const messages = [newMessage].concat(previousState.allMessages)
+        return {
+          allMessages: messages
+        }
+      },
+      onError: (err) => console.error(err),
+    })
   }
 
   _hitPress = () => {
+    console.log("this.props.data: /////////", this.props.data)
     const { data, _togglePlayPause } = this.props
      const { setParams } = this.props.navigation;
      const hopful = setParams({toggleFunc: this._togglePlayPause})
     this.props.changer(0)
-    this.props.navigation.navigate('OldAudio', { data: data,  });
+    this.props.navigation.navigate('OldAudio', { data: data });
   }
 
   _togglePlayPause = () => {
@@ -98,9 +96,8 @@ export class Footer extends Component {
 
   render() {
     const { data } = this.props
-    console.log("////////////// data ////////////", data )
+    console.log("////////////// data ////////////", this.props )
     // console.log(" ////////////////////////// FOOTERQUERY", FOOTERQUERY)
-    // console.log(" ////////////////////////// FOOTERSUBSCRIPTION", FOOTERSUBSCRIPTION)
     const { loading, allQueues } = data
 
     if (loading) {
@@ -189,42 +186,29 @@ const FOOTERQUERY = gql`
   }
 }`;
 
-// const FOOTERSUBSCRIPTION = gql`
-// subscription {
-//   Queue (filter: {
-//       mutation_in: [CREATED]
-//       node: {
-//         songses
-//       }
-//     }
-//   ) {
-//     mutation
-//     node {
-//       name
-//       songses{
-//         id
-//         title
-//         trackNumber
-//         file {
-//           url
-//         }
-//         album {
-//           image {
-//             file {
-//               url
-//             }
-//           }
-//         }
-//       }
-//     }
-//   }
-// }`
+const FOOTERSUB = gql`
+subscription {
+  Queue (
+    filter: {
+      mutation_in: [CREATED]
+    }
+  ) {
+    node {
+      songs {
+        title
+        album {
+          image {
+            file {
+              url
+            }
+          }
+        }
+        file {
+          url
+        }
+      }
+    }
+  }
+}`;
 
 export default graphql(FOOTERQUERY)(Footer);
-// graphql(FOOTERQUERY)(Footer);
-// export const FooterWrapper = compose(
-//   graphql(FOOTERQUERY, { name: 'FOOTERQUERY' }),
-//   graphql(FOOTERSUBSCRIPTION, { name: 'FOOTERSUBSCRIPTION' }),
-// );
-//
-// export default FooterWrapper(Footer)

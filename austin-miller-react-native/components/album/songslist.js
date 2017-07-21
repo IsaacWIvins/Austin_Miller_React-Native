@@ -20,13 +20,18 @@ export class SongsList extends Component {
 
   _handleSongPlay = (data) => {
     const { id } = data
-    console.log(" ========== songlist =========", data)
+    // console.log(" ========== songlist =========", data)
     this.props.createQueue({
       variables: { songsId: id }
-    }).then(() => {
-      console.log("completed")
+    }).then(res => {
+      console.log('res:', res)
+      console.log('FOOTERQUERY ///// ', FOOTERQUERY)
+      this.props.FOOTERQUERY.refetch()}
+    ).catch(err => {
+      console.log('err:', err)
     })
   }
+
 
   _songRender = (data) => {
     return(
@@ -158,9 +163,25 @@ const createQueue = gql`
     }
   }
 `
+const FOOTERQUERY = gql`
+  query songs {
+  allQueues {
+    songs {
+      title
+      album {
+        image {
+          file {
+            url
+          }
+        }
+      }
+    }
+  }
+}`;
 
 export const Wrapper = compose(
   graphql(SONGQUERY, { name: 'SONGQUERY' }),
+  graphql(FOOTERQUERY, { name: 'FOOTERQUERY' }),
   graphql(createQueue, { name: 'createQueue' }),
 );
 
