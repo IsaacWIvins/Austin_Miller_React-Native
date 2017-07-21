@@ -13,11 +13,15 @@ import { AppRegistry,
 
 import { graphql, gql  } from 'react-apollo';
 
-export class AudioPlayer extends Component {
+export default class AudioPlayer extends Component {
 
   _handlePress = () => {
     this.props.changer(8)
     this.props.navigation.navigate('NewFooter');
+  }
+  _handlePlay = () => {
+    setParams({toggleFunc: this._togglePlayPause})
+    // console.log("=================", this.props.navigation.state.params)
   }
 
   _renderSongses = ({ songses }) => {
@@ -50,16 +54,18 @@ export class AudioPlayer extends Component {
       )
   }
   render() {
-    const { data } = this.props
-    const { loading , allQueues} = data
-    if (loading) {
-      return <ActivityIndicator />
-    }
+    console.log("///////////// AUDIO PROPS /////////////", this.props)
+    // console.log("=================", this.props.navigation.state.params)
+    // const { data } = this.props
+    // const { loading , allQueues} = data
+    // if (loading) {
+    //   return <ActivityIndicator />
+    // }
     return (
         <View style={styles.container}>
           <ScrollView>
 
-            {allQueues.map(this._renderSongses)}
+            {/* {allQueues.map(this._renderSongses)} */}
 
           <View style={styles.controllerContainer}>
 
@@ -79,7 +85,7 @@ export class AudioPlayer extends Component {
                 color='white' />
             </TouchableOpacity>
 
-            <TouchableOpacity>
+            <TouchableOpacity onPress={this._handlePlay}>
               <Ionicons
                 style={styles.holders}
                 name="md-play"
@@ -164,26 +170,26 @@ const styles = StyleSheet.create({
   },
 })
 
-const QUEUEQUERY = gql`
-  query songs {
-  allQueues {
-    name
-    songses {
-      title
-      file {
-        url
-      }
-      album {
-        image {
-          file {
-            url
-          }
-        }
-      }
-    }
-  }
-}`;
-
-export const withSongs = graphql(QUEUEQUERY);
-
-export default withSongs(AudioPlayer);
+// const QUEUEQUERY = gql`
+//   query songs {
+//   allQueues {
+//     name
+//     songses {
+//       title
+//       file {
+//         url
+//       }
+//       album {
+//         image {
+//           file {
+//             url
+//           }
+//         }
+//       }
+//     }
+//   }
+// }`;
+//
+// export const withSongs = graphql(QUEUEQUERY);
+//
+// export default withSongs(AudioPlayer);

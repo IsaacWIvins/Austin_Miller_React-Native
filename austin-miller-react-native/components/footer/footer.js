@@ -22,8 +22,11 @@ export class Footer extends Component {
   }
 
   _hitPress = () => {
+    const { data, _togglePlayPause } = this.props
+     const { setParams } = this.props.navigation;
+     const hopful = setParams({toggleFunc: this._togglePlayPause})
     this.props.changer(0)
-    this.props.navigation.navigate('OldAudio');
+    this.props.navigation.navigate('OldAudio', { data: data,  });
   }
 
   _togglePlayPause = () => {
@@ -41,11 +44,11 @@ export class Footer extends Component {
   _renderPlayPauseButtons = () => {
     if (this.state.audioPlaying){
       return(
-        <Ionicons name="md-pause" size={45} color='white' />
+        <Ionicons name="md-pause" size={35} color='#b4b4b4' />
       )
     } else if (!this.state.audioPlaying) {
       return(
-        <Ionicons name="md-play" size={45} color='white' />
+        <Ionicons name="md-play" size={35} color='#b4b4b4' />
       )
     }
   }
@@ -72,9 +75,9 @@ export class Footer extends Component {
   }
 
   render() {
-    console.log(" ////////////////////////// state", this.state)
+    console.log(" ////////////////////////// props", this.props)
     const { data } = this.props
-    const { loading, allQueues } = data
+    const { loading } = data
 
     if (loading) {
       return <ActivityIndicator />
@@ -84,15 +87,15 @@ export class Footer extends Component {
       <View style={styles.footer}>
         <View style={styles.navButton}>
           <TouchableOpacity onPress={this._hitPress}>
-            <Text>Nav Button</Text>
+            <Ionicons name="md-arrow-round-up" size={35} color='#b4b4b4' />
           </TouchableOpacity>
         </View>
         <View style={styles.footerContent}>
-          {allQueues.map(this.renderQueues)}
+          {/* {allQueues.map(this.renderQueues)} */}
         </View>
         <View style={styles.playPauseButton}>
           <TouchableOpacity onPress={this._togglePlayPause}>
-            {this._renderPlayPauseButtons()}
+            {/* {this._renderPlayPauseButtons()} */}
           </TouchableOpacity>
         </View>
       </View>
@@ -107,61 +110,93 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'black',
-    borderWidth: 2,
-    borderColor: '#333'
+    borderTopWidth: 2,
+    borderColor: 'black',
   },
   navButton: {
     flex: 1,
-    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   footerContent: {
-    flex: 3,
-    backgroundColor: 'blue',
+    flex: 4,
   },
   playPauseButton: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     alignItems: 'center',
   },
   renderView: {
     flex: 1,
     flexDirection: 'row',
   },
-  // imageContainer: {
-  //   height: 58,
-  //   width: 58,
-  //   marginLeft: 20,
-  // },
-  // footerImage: {
-  //   flex: 1,
-  //   opacity: .7,
-  // },
-  // textContainer: {
-  //   justifyContent: 'center',
-  // },
-  // footerText: {
-  //   marginLeft: 40,
-  //   color: '#b4b4b4',
-  //   fontSize: 18,
-  //   fontWeight: '300',
-  // },
+  imageContainer: {
+    flex: 1.5,
+  },
+  footerImage: {
+    flex: 1,
+    opacity: .7,
+  },
+  textContainer: {
+    flex: 3,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  footerText: {
+    color: '#b4b4b4',
+    fontSize: 18,
+    fontWeight: '300',
+  },
 })
+//
+// const FOOTERQUERY = gql`
+//   query songs {
+//   allQueues {
+//     songses {
+//       title
+//       album {
+//         image {
+//           file {
+//             url
+//           }
+//         }
+//       }
+//     }
+//   }
+// }`;
+// subscription {
+//   Book(filter: {
+//     mutation_in: [CREATED]
+//   })
 
 const FOOTERQUERY = gql`
-  query songs {
-  allQueues {
-    songses {
-      title
-      album {
-        image {
-          file {
-            url
+subscription {
+  Queue(
+    filter: {
+      mutation_in: [UPDATED]
+    }
+  ) {
+    mutation
+    node {
+      name
+      songses{
+        id
+        title
+        trackNumber
+        file {
+          url
+        }
+        album {
+          image {
+            file {
+              url
+            }
           }
         }
       }
     }
   }
-}`;
+}`
 
 export const withQueue = graphql(FOOTERQUERY);
 export default withQueue(Footer);

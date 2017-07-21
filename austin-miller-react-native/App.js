@@ -2,14 +2,32 @@ import React, { Component } from 'react'
 import { AppRegistry, View, StyleSheet } from 'react-native'
 import ApolloClient, { createNetworkInterface } from 'apollo-client'
 import { ApolloProvider, graphql } from 'react-apollo'
+import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-transport-ws';
+
 import Tabs from './config/router'
 import FooterStack from './config/footerRouter'
 
+// const client = new ApolloClient({
+//   networkInterface: createNetworkInterface({
+//     uri: 'https://api.graph.cool/simple/v1/cj51l581d7v7h0175nftbwyrx',
+//   }),
+// })
+const wsClient = new SubscriptionClient(`wss://subscriptions.graph.cool/v1/cj51l581d7v7h0175nftbwyrx`, {
+  reconnect: true
+});
+
+const networkInterface = createNetworkInterface({
+  uri: `https://api.graph.cool/simple/v1/cj51l581d7v7h0175nftbwyrx`
+});
+
+const networkInterfaceWithSubscriptions = addGraphQLSubscriptions(
+  networkInterface,
+  wsClient
+);
+
 const client = new ApolloClient({
-  networkInterface: createNetworkInterface({
-    uri: 'https://api.graph.cool/simple/v1/cj51l581d7v7h0175nftbwyrx',
-  }),
-})
+  networkInterface: networkInterfaceWithSubscriptions,
+});
 
 const $styles = (size) =>  StyleSheet.create({
   app: {
