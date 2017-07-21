@@ -165,7 +165,7 @@ const createQueue = gql`
 `
 const FOOTERQUERY = gql`
   query songs {
-  allQueues {
+  allQueues (orderBy:createdAt_ASC) {
     songs {
       title
       album {
@@ -174,6 +174,9 @@ const FOOTERQUERY = gql`
             url
           }
         }
+      }
+      file {
+        url
       }
     }
   }

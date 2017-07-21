@@ -21,27 +21,7 @@ export class Footer extends Component {
     };
   }
 
-  async componentDidMount() {
-    console.log("////////////// data ////////////", this.props )
-    this._subscribeToQueue()
-  }
-
-  _subscribeToQueue = () => {
-    this.createQueueSubscription = this.props.data.subscribeToMore({
-      document: FOOTERSUB,
-      updateQuery: (previousState, {subscriptionData}) => {
-        const newMessage = subscriptionData.data.Message.node
-        const messages = [newMessage].concat(previousState.allMessages)
-        return {
-          allMessages: messages
-        }
-      },
-      onError: (err) => console.error(err),
-    })
-  }
-
   _hitPress = () => {
-    console.log("this.props.data: /////////", this.props.data)
     const { data, _togglePlayPause } = this.props
      const { setParams } = this.props.navigation;
      const hopful = setParams({toggleFunc: this._togglePlayPause})
@@ -74,21 +54,18 @@ export class Footer extends Component {
   }
 
   renderQueues = (data) => {
-    const { queueIndex } = this.state
-    const footerSong = data.songses[queueIndex]
-    const url = footerSong.album.image.file.url
-
+    console.log("data ////////////", data)
       return(
-        <View key={footerSong.title} style={styles.renderView}>
+        <View key={data.songs.title} style={styles.renderView}>
           <View style={styles.imageContainer}>
             <Image
-              source={{uri: url}}
+              source={{uri: data.songs.album.image.file.url}}
               resizeMode='cover'
               style={styles.footerImage}
             />
           </View>
           <View style={styles.textContainer}>
-            <Text style={styles.footerText}>{footerSong.title}</Text>
+            <Text style={styles.footerText}>{data.songs.title}</Text>
           </View>
         </View>
       )
@@ -96,29 +73,46 @@ export class Footer extends Component {
 
   render() {
     const { data } = this.props
-    console.log("////////////// data ////////////", this.props )
-    // console.log(" ////////////////////////// FOOTERQUERY", FOOTERQUERY)
     const { loading, allQueues } = data
+    console.log("this.props//////", this.props)
+    console.log("this.state//////", this.state)
 
     if (loading) {
       return <ActivityIndicator />
     }
+    const helper =  allQueues.length - 1;
+    const display = allQueues[helper].songs
+    console.log("display", display)
 
     return (
       <View style={styles.footer}>
+
         <View style={styles.navButton}>
           <TouchableOpacity onPress={this._hitPress}>
             <Ionicons name="md-arrow-round-up" size={35} color='#b4b4b4' />
           </TouchableOpacity>
         </View>
+
         <View style={styles.footerContent}>
-          {/* {allQueues.map(this.renderQueues)} */}
+          <View key={display.title} style={styles.renderView}>
+            <View style={styles.imageContainer}>
+              <Image
+                source={{uri: display.album.image.file.url}}
+                resizeMode='cover'
+                style={styles.footerImage} />
+            </View>
+            <View style={styles.textContainer}>
+              <Text style={styles.footerText}>{display.title}</Text>
+            </View>
+          </View>
         </View>
+
         <View style={styles.playPauseButton}>
           <TouchableOpacity onPress={this._togglePlayPause}>
             {this._renderPlayPauseButtons()}
           </TouchableOpacity>
         </View>
+
       </View>
     )
   }
@@ -172,28 +166,7 @@ const styles = StyleSheet.create({
 
 const FOOTERQUERY = gql`
   query songs {
-  allQueues {
-    songs {
-      title
-      album {
-        image {
-          file {
-            url
-          }
-        }
-      }
-    }
-  }
-}`;
-
-const FOOTERSUB = gql`
-subscription {
-  Queue (
-    filter: {
-      mutation_in: [CREATED]
-    }
-  ) {
-    node {
+    allQueues (orderBy:createdAt_ASC) {
       songs {
         title
         album {
@@ -208,7 +181,6 @@ subscription {
         }
       }
     }
-  }
 }`;
 
 export default graphql(FOOTERQUERY)(Footer);
