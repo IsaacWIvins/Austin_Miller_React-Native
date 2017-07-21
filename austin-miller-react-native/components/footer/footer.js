@@ -149,27 +149,23 @@ const styles = StyleSheet.create({
   },
 })
 //
-// const FOOTERQUERY = gql`
-//   query songs {
-//   allQueues {
-//     songses {
-//       title
-//       album {
-//         image {
-//           file {
-//             url
-//           }
-//         }
-//       }
-//     }
-//   }
-// }`;
-// subscription {
-//   Book(filter: {
-//     mutation_in: [CREATED]
-//   })
-
 const FOOTERQUERY = gql`
+  query songs {
+  allQueues {
+    songses {
+      title
+      album {
+        image {
+          file {
+            url
+          }
+        }
+      }
+    }
+  }
+}`;
+
+const FOOTERSUBSCRIPTION = gql`
 subscription {
   Queue(
     filter: {
@@ -197,6 +193,11 @@ subscription {
     }
   }
 }`
-
-export const withQueue = graphql(FOOTERQUERY);
-export default withQueue(Footer);
+export default graphql(FOOTERQUERY)(Footer);
+// graphql(FOOTERQUERY)(Footer);
+// export const FooterWrapper = compose(
+//   graphql(FOOTERQUERY, { name: 'FOOTERQUERY' }),
+//   graphql(FOOTERSUBSCRIPTION, { name: 'FOOTERSUBSCRIPTION' }),
+// );
+//
+// export default FooterWrapper(Footer)
