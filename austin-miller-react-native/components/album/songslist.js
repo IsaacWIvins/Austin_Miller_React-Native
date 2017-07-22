@@ -20,12 +20,9 @@ export class SongsList extends Component {
 
   _handleSongPlay = (data) => {
     const { id } = data
-    // console.log(" ========== songlist =========", data)
     this.props.createQueue({
       variables: { songsId: id }
     }).then(res => {
-      // console.log('res:', res)
-      // console.log('FOOTERQUERY ///// ', FOOTERQUERY)
       this.props.FOOTERQUERY.refetch()}
     ).catch(err => {
       console.log('err:', err)
