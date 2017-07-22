@@ -72,6 +72,7 @@ export const ConnectTabs = TabNavigator({
       backgroundColor: 'transparent',
     },
     activeBackgroundColor: 'rgb(50, 51, 48)',
+    activeTintColor: 'white',
   }
 },);
 

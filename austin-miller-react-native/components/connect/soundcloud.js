@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
   },
   coverIMG: {
     flex: 1,
-    opacity: .7,
+    opacity: .6,
     height: null,
     width: null,
   },
