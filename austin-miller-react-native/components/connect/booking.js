@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { AppRegistry, View, StyleSheet, Text } from 'react-native'
 
-export default class BandCamp extends Component {
+export default class Booking extends Component {
   render() {
     return (
         <View style={styles.container}>
-          <Text style={styles.text}>This is the About Page</Text>
+          <Text style={styles.text}>BOOOKINGGGG</Text>
         </View>
     )
   }

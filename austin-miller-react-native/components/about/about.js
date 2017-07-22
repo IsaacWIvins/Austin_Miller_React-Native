@@ -6,13 +6,12 @@ export class About extends Component {
 
   _renderArtist = ({ id, images, name, about, style, recentInfo, influences }) => {
 
-    console.log("images[0].file.name", images)
-    console.log("images[0].file.name.url", images[0].file.url)
     const url_1969 = images[0].file.url
-    const url_headshot = images[4].file.url
     const url_jammin = images[1].file.url
     const url_sunny65 = images[2].file.url
     const url_happyCamper = images[3].file.url
+    const url_headshot = images[4].file.url
+
     return (
       <View key={id} style={styles.renderContainer}>
 
@@ -80,7 +79,6 @@ export class About extends Component {
   render() {
     const { data } = this.props;
     const { allArtists, loading } = data
-    // console.log("//////// this.state /////////", this.state)
     if (loading) {
       return <ActivityIndicator />
     }

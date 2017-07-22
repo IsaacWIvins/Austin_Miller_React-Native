@@ -8,8 +8,8 @@ import AlbumsListData from '../components/album/albumlist'
 import SongsList from '../components/album/songslist'
 import About from '../components/about/about'
 import Facebook from '../components/connect/facebook'
-import Spotify from '../components/connect/spotify'
-import BandCamp from '../components/connect/bandcamp'
+import Soundcloud from '../components/connect/soundcloud'
+import Booking from '../components/connect/booking'
 
 const defaultNav = {
   headerStyle: {
@@ -37,33 +37,36 @@ export const MusicStack = StackNavigator({
     }),
   }
 });
-SocialIcon
+
 export const ConnectTabs = TabNavigator({
+  Booking: {
+    screen: Booking,
+    headerMode: 'screen',
+    navigationOptions: {
+      tabBarLabel: 'Booking',
+    }
+  },
   Facebook: {
     screen: Facebook,
     headerMode: 'screen',
     navigationOptions: {
-      tabBarIcon: ({ tintColor }) => <SocialIcon type="facebook" size={35} color={tintColor} />
+      tabBarLabel: 'Facebook',
     }
   },
-  Spotify: {
-    screen: Spotify,
+  Soundcloud: {
+    screen: Soundcloud,
+    headerMode: 'screen',
     navigationOptions: {
-      tabBarLabel: 'Music',
-      tabBarIcon: ({ tintColor }) => <SocialIcon type="soundcloud" size={35} color={tintColor} />
-    }
-  },
-  BandCamp: {
-    screen: BandCamp,
-    navigationOptions: {
-      ...defaultNav,
-      title: 'BandCamp',
+      tabBarLabel: 'Soundcloud',
     }
   }
 },
 {
   tabBarOptions: {
-    showLabel: false,
+    labelStyle: {
+      fontSize: 20,
+      marginBottom: 18,
+    },
     style: {
       height: 55,
       backgroundColor: 'transparent',
