@@ -12,7 +12,7 @@ export class About extends Component {
     const url_headshot = images[4].file.url
     const url_jammin = images[1].file.url
     const url_sunny65 = images[2].file.url
-    const url_happyCamper = images[2].file.url
+    const url_happyCamper = images[3].file.url
     return (
       <View key={id} style={styles.renderContainer}>
 
@@ -24,41 +24,56 @@ export class About extends Component {
           source={{uri: url_headshot}}
           resizeMode='cover'
           style={styles.BGimage}>
+          <View style={styles.aboutView}>
+            <Image
+              source={{uri: url_headshot}}
+              style={styles.FrontIMG} />
+            <Text style={styles.aboutText}>{about}</Text>
+          </View>
         </Image>
 
-        <View style={styles.aboutView}>
-          <Text style={styles.aboutText}>{about}</Text>
-        </View>
 
         <Image
-          source={{uri: url_1969}}
+          source={{uri: url_sunny65}}
           resizeMode='cover'
           style={styles.BGimage}>
+          <View style={styles.aboutView}>
+            <Image
+              source={{uri: url_sunny65}}
+              resizeMode='cover'
+              style={styles.FrontIMG} />
+            <Text style={styles.aboutText}>{influences}</Text>
+          </View>
         </Image>
 
-        <View style={styles.aboutView}>
-          <Text style={styles.aboutText}>{influences}</Text>
-        </View>
 
         <Image
           source={{uri: url_happyCamper}}
           resizeMode='cover'
           style={styles.BGimage}>
+          <View style={styles.aboutView}>
+            <Image
+              source={{uri: url_happyCamper}}
+              resizeMode='cover'
+              style={styles.FrontIMG} />
+            <Text style={styles.aboutText}>{style}</Text>
+          </View>
         </Image>
 
-        <View style={styles.aboutView}>
-          <Text style={styles.aboutText}>{style}</Text>
-        </View>
 
         <Image
           source={{uri: url_jammin}}
           resizeMode='cover'
           style={styles.BGimage}>
+          <View style={styles.aboutView}>
+            <Image
+              source={{uri: url_jammin}}
+              resizeMode='cover'
+              style={styles.FrontIMG} />
+            <Text style={styles.aboutText}>{recentInfo}</Text>
+          </View>
         </Image>
 
-        <View style={styles.aboutView}>
-          <Text style={styles.aboutText}>{recentInfo}</Text>
-        </View>
       </View>
     )
   }
@@ -87,8 +102,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   renderContainer: {
-    // justifyContent: 'center',
-    // alignItems: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   nameView: {
     marginTop: 15,
@@ -101,15 +116,24 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   BGimage: {
+    flex: 1,
+    height: null,
+    width: null,
+  },
+  FrontIMG: {
     height: 200,
     width: 200,
   },
   aboutView: {
     padding: 22,
+    backgroundColor: 'rgba(0,0,0,0.7)',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   aboutText: {
     color: 'white',
     fontSize: 15,
+    marginTop: 20,
   },
 })
 
