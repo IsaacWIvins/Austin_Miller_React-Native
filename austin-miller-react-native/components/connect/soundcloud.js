@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import { AppRegistry, ActivityIndicator, Image, View, StyleSheet, Text } from 'react-native'
+import { AppRegistry, ActivityIndicator, Image, Linking, View, StyleSheet, Text } from 'react-native'
 import { graphql, gql } from 'react-apollo'
 import { SocialIcon } from 'react-native-elements'
 
 export class Soundcloud extends Component {
+
+  _handlePress = () => {
+    Linking.openURL('https://soundcloud.com/austinmillermusic');
+  }
 
   _renderImage = ({file, name}) => {
     const { url } = file
@@ -16,6 +20,7 @@ export class Soundcloud extends Component {
             <SocialIcon
               title='SoundCloud'
               button
+              onPress={this._handlePress}
               type='soundcloud'
             />
           </Image>

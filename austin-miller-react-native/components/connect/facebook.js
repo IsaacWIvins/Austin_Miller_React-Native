@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
-import { AppRegistry, ActivityIndicator, Image, View, StyleSheet, Text } from 'react-native'
+import { AppRegistry, ActivityIndicator, Image, Linking, View, StyleSheet, Text } from 'react-native'
 import { graphql, gql } from 'react-apollo'
 import { SocialIcon } from 'react-native-elements'
 
 export class Facebook extends Component {
+
+  _handlePress = () => {
+    Linking.openURL('https://www.facebook.com/austinmillermusic/?fref=ts');
+  }
 
   _renderImage = ({file, name}) => {
     const { url } = file
@@ -16,6 +20,7 @@ export class Facebook extends Component {
             <SocialIcon
               title='Facebook'
               button
+              onPress={this._handlePress}
               type='facebook'
             />
           </Image>
