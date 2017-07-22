@@ -74,15 +74,15 @@ export class Footer extends Component {
   render() {
     const { data } = this.props
     const { loading, allQueues } = data
-    console.log("this.props//////", this.props)
-    console.log("this.state//////", this.state)
+    // console.log("this.props//////", this.props)
+    // console.log("this.state//////", this.state)
 
     if (loading) {
       return <ActivityIndicator />
     }
     const helper =  allQueues.length - 1;
     const display = allQueues[helper].songs
-    console.log("display", display)
+    // console.log("display", display)
 
     return (
       <View style={styles.footer}>

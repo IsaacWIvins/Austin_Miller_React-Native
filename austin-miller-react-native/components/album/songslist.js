@@ -24,8 +24,8 @@ export class SongsList extends Component {
     this.props.createQueue({
       variables: { songsId: id }
     }).then(res => {
-      console.log('res:', res)
-      console.log('FOOTERQUERY ///// ', FOOTERQUERY)
+      // console.log('res:', res)
+      // console.log('FOOTERQUERY ///// ', FOOTERQUERY)
       this.props.FOOTERQUERY.refetch()}
     ).catch(err => {
       console.log('err:', err)
@@ -73,7 +73,7 @@ export class SongsList extends Component {
     if (loading) {
       return <ActivityIndicator />
     }
-    console.log("============== PROPS =======", this.props)
+    // console.log("============== PROPS =======", this.props)
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -103,6 +103,9 @@ const styles = StyleSheet.create({
   },
   description: {
     color: 'white',
+    marginTop: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
     fontSize: 16,
     fontWeight: '400',
   },
