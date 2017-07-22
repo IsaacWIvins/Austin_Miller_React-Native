@@ -37,11 +37,12 @@ export class SongsList extends Component {
     return(
       <TouchableHighlight
         key={data.id}
-        style={styles.songHighLight}
+        // style={styles.songHighLight}
         onPress={() => this._handleSongPlay(data)}>
-        <Text style={styles.songText}>
-          {data.trackNumber}: {data.title}
-        </Text>
+        <View style={styles.songHighLight}>
+          <Text style={styles.songText}>{data.title}</Text>
+          <Text style={styles.songTime}>4:02</Text>
+        </View>
       </TouchableHighlight>
     )
   }
@@ -59,14 +60,8 @@ export class SongsList extends Component {
             resizeMode='cover'
             style={styles.BGimage}>
           </Image>
-          <View style={styles.imgContent}>
-            <Text style={styles.name}>{name} Tracks</Text>
-            <TouchableHighlight style={styles.playButton}>
-              <Text>Play Me</Text>
-            </TouchableHighlight>
-          </View>
-          <Text style={styles.description}>{description}</Text>
           {songses.map(this._songRender)}
+          <Text style={styles.description}>{description}</Text>
         </View>
       )
     }
@@ -78,6 +73,7 @@ export class SongsList extends Component {
     if (loading) {
       return <ActivityIndicator />
     }
+    console.log("============== PROPS =======", this.props)
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -91,11 +87,12 @@ export class SongsList extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'rgb(30, 30, 31)',
+    backgroundColor: 'black',
     justifyContent: 'center',
   },
   BGimage: {
     flex: 1,
+    opacity: .7,
     height: 275,
     width: null,
   },
@@ -104,25 +101,24 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
   },
-  playButton: {
-    backgroundColor: 'rgb(46, 241, 14)',
-    padding: 20,
-  },
   description: {
-    zIndex: 4,
     color: 'white',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '400',
   },
   songHighLight: {
-    backgroundColor: "whitesmoke",
-    padding: 20,
+    justifyContent: 'flex-start',
+    padding: 9,
   },
   songText: {
     color: 'white',
-    backgroundColor: 'rgb(251, 75, 162)',
-    fontSize: 22,
-    fontWeight: '500',
+    fontSize: 14,
+    fontWeight: '400',
+  },
+  songTime: {
+    color: 'white',
+    fontSize: 12,
+    fontWeight: '300',
   }
 })
 
